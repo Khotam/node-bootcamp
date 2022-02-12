@@ -1,11 +1,37 @@
 const { Client } = require('pg');
+require('dotenv').config();
 
-const client = new Client({
-    host: 'localhost',
-    user: 'postgres',
-    password: 'postgres',
-    database: 'deliverydb',
-    port: 5432,
-});
+const { PG_HOST, PG_USER, PG_PASSWORD, PG_DATABASE, PG_PORT } = process.env;
 
-module.exports = client;
+const dbOptions = {
+    host: PG_HOST,
+    user: PG_USER,
+    password: PG_PASSWORD,
+    database: PG_DATABASE,
+    port: PG_PORT,
+};
+class Database {
+    static client;
+
+    static getClient() {
+        Database.client = new Client(dbOptions);
+        return Database.client;
+    }
+
+    // getClient() {}
+
+    static async connect() {
+        await Database.client.connect();
+    }
+
+    static async end() {
+        await Database.client.end();
+    }
+}
+
+// const db = new Database();
+// db.getClient();
+module.exports = Database;
+// Database.getClient()
+
+// module.exports = client;
