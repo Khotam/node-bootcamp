@@ -3,9 +3,8 @@ const Logger = require('./config/logger');
 const morganMiddleware = require('./config/morganMiddleware');
 const middlewares = require('./middlewares');
 const productsRouter = require('./routes/product');
+const usersRouter = require('./routes/user');
 const app = express();
-
-console.log('PG_HOST', process.env.PG_HOST);
 
 app.use(express.json()); // parse req.body
 app.use(morganMiddleware); // configure morgan logger
@@ -20,6 +19,7 @@ app.get('/', (req, res) => {
 //     next();
 // };
 app.use('/products', /*simpleMiddleware,*/ productsRouter);
+app.use('/users', /*simpleMiddleware,*/ usersRouter);
 
 // error handling middleware
 // eslint-disable-next-line no-unused-vars
