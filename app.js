@@ -2,6 +2,7 @@ const express = require('express');
 const Logger = require('./config/logger');
 const morganMiddleware = require('./config/morganMiddleware');
 const middlewares = require('./middlewares');
+const auth = require('./middlewares/auth');
 const productsRouter = require('./routes/product');
 const usersRouter = require('./routes/user');
 const app = express();
@@ -18,7 +19,12 @@ app.get('/', (req, res) => {
 //     console.log(res.headers);
 //     next();
 // };
-app.use('/products', /*simpleMiddleware,*/ productsRouter);
+app.use(
+    '/products',
+    auth.checkToken,
+    // auth.checkUserType('admin'),
+    productsRouter
+);
 app.use('/users', /*simpleMiddleware,*/ usersRouter);
 
 // error handling middleware

@@ -7,10 +7,14 @@ var jwt = require('jsonwebtoken');
 const AppError = require('../utils/AppError');
 
 // DRY - don't repeat yourself
-const signJwtToken = (userId, email, username) => {
-    const token = jwt.sign({ userId, email, username }, 'secretword', {
-        expiresIn: '24h', // 24 hours
-    });
+const signJwtToken = (userId, email, username, userType) => {
+    const token = jwt.sign(
+        { userId, email, username, userType },
+        'secretword',
+        {
+            expiresIn: '24h', // 24 hours
+        }
+    );
     return token;
 };
 
@@ -33,7 +37,7 @@ const usersController = {
                 [id, email, username, hashedPassword, type]
             );
 
-            const token = signJwtToken(id, email, username);
+            const token = signJwtToken(id, email, username, type);
 
             res.status(200).json({ token });
         } catch (error) {
@@ -80,7 +84,12 @@ const usersController = {
                 );
             }
 
-            const token = signJwtToken(user.id, user.email, user.username);
+            const token = signJwtToken(
+                user.id,
+                user.email,
+                user.username,
+                user.type
+            );
             res.status(200).json({ token });
         } catch (error) {
             next(error);
