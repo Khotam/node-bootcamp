@@ -7,6 +7,10 @@ const productsRouter = require('./routes/product');
 const usersRouter = require('./routes/user');
 const app = express();
 
+// 200 - ok, 201 - created
+// 400 - bad request, 401 - unauthorized, 403 - forbidden, 404 - not found
+// 500 - internal server error
+
 app.use(express.json()); // parse req.body
 app.use(morganMiddleware); // configure morgan logger
 
@@ -22,7 +26,7 @@ app.get('/', (req, res) => {
 app.use(
     '/products',
     auth.checkToken,
-    // auth.checkUserType('admin'),
+    // auth.checkUserType('admin') /* (req, res, next) => {} */,
     productsRouter
 );
 app.use('/users', /*simpleMiddleware,*/ usersRouter);

@@ -9,7 +9,7 @@ const AppError = require('../utils/AppError');
 // DRY - don't repeat yourself
 const signJwtToken = (userId, email, username, userType) => {
     const token = jwt.sign(
-        { userId, email, username, userType },
+        { userId, email, username, userType }, // payload
         'secretword',
         {
             expiresIn: '24h', // 24 hours
