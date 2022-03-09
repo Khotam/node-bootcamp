@@ -5,6 +5,7 @@ const middlewares = require('./middlewares');
 const auth = require('./middlewares/auth');
 const productsRouter = require('./routes/product');
 const usersRouter = require('./routes/user');
+const ordersRouter = require('./routes/order');
 const app = express();
 
 // 200 - ok, 201 - created
@@ -30,6 +31,7 @@ app.use(
     productsRouter
 );
 app.use('/users', /*simpleMiddleware,*/ usersRouter);
+app.use('/orders', ordersRouter);
 
 // error handling middleware
 // eslint-disable-next-line no-unused-vars
